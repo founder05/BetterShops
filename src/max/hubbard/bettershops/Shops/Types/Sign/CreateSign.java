@@ -267,6 +267,7 @@ public class CreateSign implements Listener {
                         Bukkit.getScheduler().scheduleSyncDelayedTask(Bukkit.getPluginManager().getPlugin("BetterShops"), new Runnable() {
                             @Override
                             public void run() {
+                            	if(s.getHolographicShop() != null && s.getHolographicShop().getHologram() != null)
                                 s.getHolographicShop().getHologram().refreshAll();
                             }
                         });
