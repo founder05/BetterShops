@@ -1,3 +1,5 @@
+NOTE: This version of BetterShops was created only to support 1.10.x - any bugs not relating to version conflicts should be posted on [the official thread](https://github.com/moomaxie/BetterShops)
+
 # BetterShops for Spigot 1.10
 ![](http://i.imgur.com/NliyO8H.png)
 
@@ -10,7 +12,11 @@ To install:
 
 Dependencies:
 1. Vault (REQUIRED)
+
 2. An Economy Plugin (REQUIRED)
+
 3. [Holographic Displays](http://dev.bukkit.org/bukkit-plugins/holographic-displays/) (RECOMMENDED)
+
 4. [Citizens](http://dev.bukkit.org/bukkit-plugins/citizens/) (RECOMMENDED)
+
 5. WorldEdit/WorldGuard (RECOMMENDED)
