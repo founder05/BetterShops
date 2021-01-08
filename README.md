@@ -10,12 +10,12 @@ To install:
 2. Install dependencies and add-ons
 
 Dependencies:
-1. Vault (REQUIRED)
+1. [Vault](https://dev.bukkit.org/projects/vault) (REQUIRED)
 
-2. An Economy Plugin (REQUIRED)
+2. An Economy Plugin (REQUIRED) For Exaple [EssentialsX](https://www.spigotmc.org/resources/essentialsx.9089/)
 
 3. [Holographic Displays](http://dev.bukkit.org/bukkit-plugins/holographic-displays/) (RECOMMENDED)
 
-4. [Citizens](http://dev.bukkit.org/bukkit-plugins/citizens/) (RECOMMENDED)
+4. [Citizens](https://www.spigotmc.org/resources/citizens.13811/) (RECOMMENDED)
 
-5. WorldEdit/WorldGuard (RECOMMENDED)
+5. [WorldGuard](https://dev.bukkit.org/projects/worldguard) (RECOMMENDED)
