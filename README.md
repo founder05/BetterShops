@@ -19,3 +19,5 @@ Dependencies:
 4. [Citizens](https://www.spigotmc.org/resources/citizens.13811/) (RECOMMENDED)
 
 5. [WorldGuard](https://dev.bukkit.org/projects/worldguard) (RECOMMENDED)
+
+You can find all information on the Original [Wiki](https://github.com/moomaxie/BetterShops/wiki) 
