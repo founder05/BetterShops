@@ -1,10 +1,9 @@
-NOTE: This version of BetterShops was created only to support 1.10.x - any bugs not relating to version conflicts should be posted on [the official thread](https://github.com/moomaxie/BetterShops)
 
-# BetterShops for Spigot 1.10
+# BetterShops for Spigot 1.8-1.12
 ![](http://i.imgur.com/NliyO8H.png)
 
 ## THE REVOLUTIONARY SHOP PLUGIN
-This project is a fork of moomaxie's [BetterShops](https://github.com/moomaxie/BetterShops) plugin, built for Minecraft 1.10.
+This project is a fork of moomaxie's [BetterShops](https://github.com/moomaxie/BetterShops) plugin, built for Minecraft 1.8-1.12
 
 To install:
 1. Go to Releases and download the latest file
