@@ -12,7 +12,7 @@ To install:
 Dependencies:
 1. [Vault](https://dev.bukkit.org/projects/vault) (REQUIRED)
 
-2. An Economy Plugin (REQUIRED) For Exaple [EssentialsX](https://www.spigotmc.org/resources/essentialsx.9089/)
+2. An Economy Plugin (REQUIRED) For Example [EssentialsX](https://www.spigotmc.org/resources/essentialsx.9089/)
 
 3. [Holographic Displays](http://dev.bukkit.org/bukkit-plugins/holographic-displays/) (RECOMMENDED)
 
