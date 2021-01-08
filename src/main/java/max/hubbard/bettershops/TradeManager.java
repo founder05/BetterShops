@@ -1,13 +1,13 @@
 package max.hubbard.bettershops;
 
-import max.hubbard.bettershops.Configurations.Config;
-import max.hubbard.bettershops.Shops.FileShop;
-import max.hubbard.bettershops.Shops.SQLShop;
-import max.hubbard.bettershops.Shops.Shop;
-import max.hubbard.bettershops.Utils.ItemUtils;
-import max.hubbard.bettershops.Utils.SQLUtil;
-import max.hubbard.bettershops.Utils.Stocks;
-import max.hubbard.bettershops.Utils.Trade;
+import max.hubbard.bettershops.configuration.Config;
+import max.hubbard.bettershops.shops.FileShop;
+import max.hubbard.bettershops.shops.SQLShop;
+import max.hubbard.bettershops.shops.Shop;
+import max.hubbard.bettershops.utils.ItemUtils;
+import max.hubbard.bettershops.utils.SQLUtil;
+import max.hubbard.bettershops.utils.Stocks;
+import max.hubbard.bettershops.utils.Trade;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;

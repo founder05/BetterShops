@@ -77,7 +77,7 @@ CostForShops: 19.99
 
 ####  NPCs  ####
 
-# Enable NPC Shops (True/False)
+# Enable NPC shops (True/False)
 EnableNPC: True
 
 # The Type of NPC that a shop can use
@@ -123,7 +123,7 @@ EnableAllowShopsFlag: False
 # Override a region to allow NPCs to spawn (only if Mob-Spawning is disabled in the region. If False, NPCs will not spawn in these regions) (True/False)
 NPCOverride: True
 
-####  Holographic Shops  ####
+####  Holographic shops  ####
 
 # Enable Holographic shops
 HoloShops: True

@@ -1,10 +1,10 @@
 package max.hubbard.bettershops;
 
-import max.hubbard.bettershops.Configurations.Config;
-import max.hubbard.bettershops.Shops.FileShop;
-import max.hubbard.bettershops.Shops.SQLShop;
-import max.hubbard.bettershops.Shops.Shop;
-import max.hubbard.bettershops.Utils.SQLUtil;
+import max.hubbard.bettershops.configuration.Config;
+import max.hubbard.bettershops.shops.FileShop;
+import max.hubbard.bettershops.shops.SQLShop;
+import max.hubbard.bettershops.shops.Shop;
+import max.hubbard.bettershops.utils.SQLUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
@@ -13,7 +13,10 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import java.io.File;
-import java.sql.*;
+import java.sql.DatabaseMetaData;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -124,7 +127,8 @@ public class ShopManager {
         playerShops.clear();
         worlds.clear();
         int ss = 0;
-        File file = new File(Bukkit.getPluginManager().getPlugin("BetterShops").getDataFolder(), "Shops");
+        File file =
+            new File(Bukkit.getPluginManager().getPlugin("BetterShops").getDataFolder(), "shops");
 
         if (!file.exists()) {
             file.mkdirs();
@@ -139,7 +143,8 @@ public class ShopManager {
                     loadingTotal = total;
                 }
             }
-        Bukkit.getConsoleSender().sendMessage("§bBetterShops§7 - §aStarting Loading of Chest Shops (§d" + total + "§a) §eVia File");
+        Bukkit.getConsoleSender().sendMessage(
+            "§bBetterShops§7 - §aStarting Loading of Chest shops (§d" + total + "§a) §eVia File");
         int i = 0;
         if (file.listFiles() != null)
             for (File f : file.listFiles()) {
@@ -196,7 +201,8 @@ public class ShopManager {
             }
         Bukkit.getConsoleSender().sendMessage("§bBetterShops§7 - §aDone!");
         if (Core.useSQL()) {
-            Bukkit.getConsoleSender().sendMessage("§bBetterShops§7 - §aConverting Shops to MySQL (Will take awhile)");
+            Bukkit.getConsoleSender()
+                .sendMessage("§bBetterShops§7 - §aConverting shops to MySQL (Will take awhile)");
 
             SQLUtil.convertShopToSQL();
             Bukkit.getConsoleSender().sendMessage("§bBetterShops§7 - §aDone!");
@@ -217,10 +223,12 @@ public class ShopManager {
 
         DatabaseMetaData md = Core.getConnection().getMetaData();
 
-        ResultSet rs2 = md.getColumns(null, null, "Shops", null);
+        ResultSet rs2 = md.getColumns(null, null, "shops", null);
         if (rs2.next()) {
-            statement.executeUpdate("RENAME TABLE Shops TO " + Config.getObject("prefix") + "Shops;");
-            statement.executeUpdate("RENAME TABLE Items TO " + Config.getObject("prefix") + "Items;");
+            statement
+                .executeUpdate("RENAME TABLE shops TO " + Config.getObject("prefix") + "shops;");
+            statement
+                .executeUpdate("RENAME TABLE Items TO " + Config.getObject("prefix") + "Items;");
             statement.executeUpdate("RENAME TABLE Trades TO " + Config.getObject("prefix") + "Trades;");
             statement.executeUpdate("RENAME TABLE Keepers TO " + Config.getObject("prefix") + "Keepers;");
             statement.executeUpdate("RENAME TABLE Blacklist TO " + Config.getObject("prefix") + "Blacklist;");
@@ -235,16 +243,16 @@ public class ShopManager {
                     "ADD COLUMN `Enchants` TEXT NULL DEFAULT NULL AFTER `Lore`;");
         }
 
-        ResultSet rs4 = md.getColumns(null, null, Config.getObject("prefix") + "Shops", "NPCInfo");
+        ResultSet rs4 = md.getColumns(null, null, Config.getObject("prefix") + "shops", "NPCInfo");
         if (!rs4.next()) {
-            statement.executeUpdate("ALTER TABLE " + Config.getObject("prefix") + "Shops " +
-                    "ADD COLUMN `NPCInfo` TEXT NULL DEFAULT NULL;");
+            statement.executeUpdate("ALTER TABLE " + Config.getObject("prefix") + "shops "
+                + "ADD COLUMN `NPCInfo` TEXT NULL DEFAULT NULL;");
         }
 
-        ResultSet rs6 = md.getColumns(null, null, Config.getObject("prefix") + "Shops", "Removal");
+        ResultSet rs6 = md.getColumns(null, null, Config.getObject("prefix") + "shops", "Removal");
         if (!rs6.next()) {
-            statement.executeUpdate("ALTER TABLE " + Config.getObject("prefix") + "Shops " +
-                    "ADD COLUMN `Removal` TEXT NULL DEFAULT NULL;");
+            statement.executeUpdate("ALTER TABLE " + Config.getObject("prefix") + "shops "
+                + "ADD COLUMN `Removal` TEXT NULL DEFAULT NULL;");
         }
 
         ResultSet rs5 = md.getColumns(null, null, Config.getObject("prefix") + "Items", "AutoStock");
@@ -263,18 +271,21 @@ public class ShopManager {
                     "MODIFY AdjustedPrice DOUBLE;");
         }
 
-        ResultSet rs = statement.executeQuery("SELECT COUNT(*) FROM " + Config.getObject("prefix") + "Shops");
+        ResultSet rs =
+            statement.executeQuery("SELECT COUNT(*) FROM " + Config.getObject("prefix") + "shops");
         int total = 0;
         if (rs.next()) {
             total = rs.getInt(1);
             loadingTotal = total;
         }
 
-        Bukkit.getConsoleSender().sendMessage("§bBetterShops§7 - §aStarting Loading of Chest Shops (§d" + total + "§a) §evia MySQL");
+        Bukkit.getConsoleSender().sendMessage(
+            "§bBetterShops§7 - §aStarting Loading of Chest shops (§d" + total + "§a) §evia MySQL");
 
         int i = 0;
 
-        final ResultSet r = statement.executeQuery("SELECT * FROM " + Config.getObject("prefix") + "Shops");
+        final ResultSet r =
+            statement.executeQuery("SELECT * FROM " + Config.getObject("prefix") + "shops");
         while (r.next()) {
 
             final String name = r.getString("Name");
