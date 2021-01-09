@@ -60,7 +60,6 @@ public class SQLShop implements Shop {
     private final List<OfflinePlayer> keepers = new ArrayList<>();
     private Location l;
     private final HashMap<MenuType, ShopMenu> menus = new HashMap<>();
-    private boolean transLoaded = false;
     private History history = new History(this);
     private String name;
     public HashMap<UUID, ShopItem> arrange = new HashMap<>();
@@ -493,7 +492,7 @@ public class SQLShop implements Shop {
         } catch (SQLException e) {
 //            e.printStackTrace();
         }
-        transLoaded = true;
+        boolean transLoaded = true;
     }
 
     public void deleteShopItem(ShopItem item) {

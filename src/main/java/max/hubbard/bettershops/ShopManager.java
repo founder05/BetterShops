@@ -34,7 +34,7 @@ import java.util.UUID;
 
 public class ShopManager {
 
-    public static List<Shop> shops = new ArrayList<Shop>();
+    public static List<Shop> shops = new ArrayList<>();
     public static int loadingTotal;
 
     public static int loadShops() throws Exception {
@@ -49,7 +49,7 @@ public class ShopManager {
 
         int ss;
 
-        if (!Core.useSQL() || Core.useSQL() && !SQLUtil.isConverted()) {
+        if (!Core.useSQL() || !SQLUtil.isConverted()) {
             ss = loadFile();
         } else {
             ss = loadSQL();
@@ -85,11 +85,7 @@ public class ShopManager {
     }
 
     public static int getShopAmt(OfflinePlayer p) {
-        if (limit.containsKey(p.getUniqueId())) {
-            return limit.get(p.getUniqueId());
-        } else {
-            return 0;
-        }
+        return limit.getOrDefault(p.getUniqueId(), 0);
     }
 
     public static Shop fromString(String name) {

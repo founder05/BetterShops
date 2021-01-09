@@ -94,9 +94,8 @@ public class CreateShop implements Listener {
 
                 if (finalChest != null && ShopManager.fromLocation(finalChest.getLocation()) == null) {
                     final AnvilManager man = new AnvilManager(p);
-                    Bukkit.getScheduler().runTaskAsynchronously(Bukkit.getPluginManager().getPlugin("BetterShops"), new Runnable() {
-                        @Override
-                        public void run() {
+                    Bukkit.getScheduler().runTaskAsynchronously(Bukkit.getPluginManager().getPlugin("BetterShops"),
+                        () -> {
                             String name = man.call();
                             if (isAlphaNumeric(name)) {
                                 boolean ca = true;
@@ -122,7 +121,7 @@ public class CreateShop implements Listener {
                                         e.setLine(3, Language.getString("MainGUI", "SignLine4"));
 
                                         if (e.getBlock().getState() instanceof Sign) {
-                                            org.bukkit.block.Sign s = (org.bukkit.block.Sign) e.getBlock().getState();
+                                            Sign s = (Sign) e.getBlock().getState();
 
                                             s.setLine(0, Language.getString("MainGUI", "SignLine1"));
                                             s.setLine(1, Language.getString("MainGUI", "SignLine2"));
@@ -142,8 +141,8 @@ public class CreateShop implements Listener {
                                         }
 
 
-                                        ShopCreateEvent e = new ShopCreateEvent(ShopManager.fromLocation(finalChest.getLocation()));
-                                        Bukkit.getPluginManager().callEvent(e);
+                                        ShopCreateEvent e1 = new ShopCreateEvent(ShopManager.fromLocation(finalChest.getLocation()));
+                                        Bukkit.getPluginManager().callEvent(e1);
 
 
                                         if ((boolean) Config.getObject("Auto Add")) {
@@ -172,8 +171,8 @@ public class CreateShop implements Listener {
 
                                                             shopItem.setObject("Stock", shopItem.getStock() + amt);
 
-                                                            Bukkit.getScheduler().scheduleSyncDelayedTask(Bukkit.getPluginManager().getPlugin("BetterShops"), new Runnable() {
-                                                                public void run() {
+                                                            Bukkit.getScheduler().scheduleSyncDelayedTask(Bukkit.getPluginManager().getPlugin("BetterShops"),
+                                                                () -> {
                                                                     for (int in = 0; in < finalChest.getBlockInventory().getSize(); in++) {
                                                                         if (finalChest.getBlockInventory().getItem(in) != null) {
 
@@ -183,12 +182,11 @@ public class CreateShop implements Listener {
                                                                         }
                                                                     }
 
-                                                                }
-                                                            }, 5L);
+                                                                }, 5L);
 
                                                         } else {
-                                                            Bukkit.getScheduler().scheduleSyncDelayedTask(Bukkit.getPluginManager().getPlugin("BetterShops"), new Runnable() {
-                                                                public void run() {
+                                                            Bukkit.getScheduler().scheduleSyncDelayedTask(Bukkit.getPluginManager().getPlugin("BetterShops"),
+                                                                () -> {
                                                                     for (int in = 0; in < finalChest.getBlockInventory().getSize(); in++) {
                                                                         if (finalChest.getBlockInventory().getItem(in) != null) {
 
@@ -198,8 +196,7 @@ public class CreateShop implements Listener {
                                                                         }
                                                                     }
 
-                                                                }
-                                                            }, 5L);
+                                                                }, 5L);
                                                         }
                                                     }
                                                 }
@@ -253,8 +250,7 @@ public class CreateShop implements Listener {
                                 }
                                 e.setCancelled(true);
                             }
-                        }
-                    });
+                        });
 
                 }
             } else {
@@ -276,7 +272,7 @@ public class CreateShop implements Listener {
         return true;
     }
 
-    public static Shop createShopExternally(Location loc, String name, OfflinePlayer owner) {
+    public static void createShopExternally(Location loc, String name, OfflinePlayer owner) {
         if (isAlphaNumeric(name)) {
             boolean can = true;
             boolean Long = false;
@@ -335,10 +331,8 @@ public class CreateShop implements Listener {
 
                 Bukkit.getPluginManager().callEvent(e);
 
-                return s;
             }
 
         }
-        return null;
     }
 }

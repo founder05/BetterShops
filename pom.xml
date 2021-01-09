@@ -191,6 +191,13 @@
             <scope>system</scope>
             <systemPath>${project.basedir}/deps/wg.jar</systemPath>
         </dependency>
+    <dependency>
+        <groupId>com.sk8q.worldedit</groupId>
+        <artifactId>worldedit</artifactId>
+        <version>6.0.0</version>
+        <scope>system</scope>
+        <systemPath>${project.basedir}/deps/we.jar</systemPath>
+    </dependency>
     </dependencies>
 </project>
 

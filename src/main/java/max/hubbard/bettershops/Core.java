@@ -34,6 +34,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.sql.Connection;
+import java.util.Objects;
 
 /**
  * ***********************************************************************
@@ -46,8 +47,6 @@ import java.sql.Connection;
  */
 public class Core extends JavaPlugin {
 
-
-
     private static Core instance;
     private static AnvilGUI gui;
     public static Metrics metrics;
@@ -56,33 +55,13 @@ public class Core extends JavaPlugin {
     private static boolean aboveEight = false;
     private static boolean holo = false;
     private static boolean wg = false;
-    private static final boolean beta = false;
     private static boolean citizens = false;
     private static Connection c;
     private static Database db;
 
-    public static void loadShops() throws Exception {
-        Bukkit.getConsoleSender().sendMessage(
-            "§bBetterShops§7 - §aLoaded §d" + ShopManager.loadShops() + " §aChest shops");
-        Bukkit.getConsoleSender().sendMessage(
-            "§bBetterShops§7 - §eSome shops may still be initializing, this may last a few minutes");
-        Bukkit.getConsoleSender().sendMessage("§bBetterShops§7 - §aLoading §eSign shops§a...");
-        Bukkit.getConsoleSender().sendMessage(
-            "§bBetterShops§7 - §aLoaded §d" + SignShopManager.loadSignShops() + " §aSign shops");
-
-        Bukkit.getConsoleSender()
-            .sendMessage("§bBetterShops§7 - §aNPC shops will be loaded when needed.");
-        if (useHolograms() && (boolean) Config.getObject("HoloShops")) {
-            Bukkit.getConsoleSender()
-                .sendMessage("§bBetterShops§7 - §aHolographic shops will be loaded when needed.");
-        }
-        Bukkit.getConsoleSender().sendMessage("§bBetterShops§7 - §aDone");
-
-    }
-
     @Override
     public void onDisable() {
-        Bukkit.getConsoleSender().sendMessage("§bBetterShops§7 - §eSaving shops..");
+        Bukkit.getConsoleSender().sendMessage("§bBetterShops§7 - §eSaving Shops..");
         for (Shop shop : ShopManager.getShops()) {
             if (shop.isHoloShop()) {
                 shop.getHolographicShop().getHologram().despawnEntities();
@@ -99,10 +78,6 @@ public class Core extends JavaPlugin {
         Bukkit.getScheduler().cancelTasks(this);
         Bukkit.getScheduler().cancelTasks(Bukkit.getPluginManager().getPlugin("BetterShops"));
         Bukkit.getConsoleSender().sendMessage("§bBetterShops§7 - §eSaved!");
-    }
-
-    public static Core getCore() {
-        return instance;
     }
 
     @Override
@@ -137,8 +112,6 @@ public class Core extends JavaPlugin {
                 //REGISTER COMMANDS
                 getCommand("BS").setExecutor(new BSCommand());
 
-                //UPDATE FILES
-                Language.updateFiles();
 
                 //REGISTER INTERFACES
                 String packageName = this.getServer().getClass().getPackage().getName();
@@ -157,8 +130,7 @@ public class Core extends JavaPlugin {
 
                 //Choose Anvil GUI for Version
                 try {
-                    final Class<?> clazz =
-                        Class.forName("max.hubbard.bettershops.nms." + version + ".AnvilGUI");
+                    final Class<?> clazz = Class.forName("max.hubbard.bettershops.nms." + version + ".AnvilGUI");
                     // Check if we have a NMSHandler class at that location.
                     if (AnvilGUI.class.isAssignableFrom(clazz)) { // Make sure it actually implements NMS
                         gui = (AnvilGUI) clazz.getConstructor().newInstance(); // Set our handler
@@ -167,39 +139,30 @@ public class Core extends JavaPlugin {
                     boolean c = false;
 
                     if (v.contains("Spigot")) {
-                        if (version.equals("v1_8_R1") || version.equals("v1_8_R2") || version
-                            .equals("v1_8_R3") || version.equals("v1_9_R1") || version
-                            .equals("v1_9_R2") || version.equals("v1_10_R1")) {
+                        if (version.equals("v1_8_R2") || version.equals("v1_8_R3") || version.equals("v1_9_R1") || version.equals("v1_9_R2") || version.equals("v1_10_R1")) {
                             c = true;
                         }
                     }
 
 
                     if (c) {
-                        final Class<?> clazz2 = Class
-                            .forName("max.hubbard.bettershops.nms." + version + ".TitleManager");
+                        final Class<?> clazz2 = Class.forName("max.hubbard.bettershops.nms." + version + ".TitleManager");
                         // Check if we have a NMSHandler class at that location.
 
-                        if (TitleManager.class
-                            .isAssignableFrom(clazz2)) { // Make sure it actually implements NMS
-                            manager = (TitleManager) clazz2.getConstructor()
-                                .newInstance(); // Set our handler
+                        if (TitleManager.class.isAssignableFrom(clazz2)) { // Make sure it actually implements NMS
+                            manager = (TitleManager) clazz2.getConstructor().newInstance(); // Set our handler
                         }
                     }
                 } catch (final Exception e) {
-//                e.printStackTrace();
-                    Bukkit.getConsoleSender().sendMessage(
-                        "§bBetterShops§7 - §cCould not find support for this Spigot version, You are using §d"
-                            + version + "§c. Plugin Disabling!");
+                    //                e.printStackTrace();
+                    Bukkit.getConsoleSender().sendMessage("§bBetterShops§7 - §cCould not find support for this CraftBukkit version.  You are using §d" + version + "§c. Plugin Disabling!");
                     this.setEnabled(false);
                     return;
                 }
 
                 //REGISTER ADD-ONS
 
-                Bukkit.getConsoleSender().sendMessage(
-                    "§bBetterShops§7 - §aLoading support for Spigot §e" + version
-                        .replaceAll("_", "."));
+                Bukkit.getConsoleSender().sendMessage("§bBetterShops§7 - §aLoading support for CraftBukkit §e" + version.replaceAll("_", "."));
 
                 if (getWorldGuard() != null) {
                     wg = true;
@@ -216,8 +179,7 @@ public class Core extends JavaPlugin {
                     Bukkit.getConsoleSender().sendMessage("§bBetterShops§7 - §aLoading support for §eCitizens");
                 }
 
-                if (Config.getObject("database").equals("true") || (boolean) Config
-                    .getObject("database")) {
+                if (Config.getObject("SQL").equals("true")) Config.getObject("SQL"); {
                     String user = String.valueOf(Config.getObject("username"));
                     String pass = String.valueOf(Config.getObject("password"));
                     String host = String.valueOf(Config.getObject("host"));
@@ -253,18 +215,24 @@ public class Core extends JavaPlugin {
                 ReturnNPC.beginReturning();
 
             } catch (Exception e) {
-                Bukkit.getConsoleSender().sendMessage(
-                    "§bBetterShops§7 - §cAn error occurred! §cPlease inform the developer @ §ehttps://github.com/founder05/BetterShops §c. Plugin Disabling!");
+                Bukkit.getConsoleSender().sendMessage("§bBetterShops§7 - §cAn error occurred! §cPlease inform the developer @ §ehttp://dev.bukkit.org/bukkit-plugins/better-shops/ §c. Plugin Disabling!");
                 e.printStackTrace();
                 this.setEnabled(false);
             }
         } else {
 
-            Bukkit.getConsoleSender().sendMessage(
-                "§bBetterShops§7 - §cNo Vault OR external Economy Plugin Found. This means that §bBetter shops §cis Not able to Function and will now §dDisable");
+            Bukkit.getConsoleSender().sendMessage("§bBetterShops§7 - §cNo Vault OR external Economy Plugin Found. This means that §bBetter Shops §cis Not able to Function and will now §dDisable");
             this.setEnabled(false);
 
         }
+    }
+
+    public static Core getCore() {
+        return instance;
+    }
+
+    public File getFile() {
+        return new File(getClass().getProtectionDomain().getCodeSource().getLocation().getFile());
     }
 
     public static boolean useHolograms() {
@@ -375,8 +343,60 @@ public class Core extends JavaPlugin {
         return plugin;
     }
 
-    public File getFile() {
-        return new File(getClass().getProtectionDomain().getCodeSource().getLocation().getFile());
+
+    public void setUpMetrics() {
+        Metrics.Graph shops = metrics.createGraph("Number of Shops per Server");
+
+        shops.addPlotter(new Metrics.Plotter("" + ShopManager.getShops().size()) {
+            @Override
+            public int getValue() {
+                return 1;
+            }
+        });
+
+        Metrics.Graph npcshops = metrics.createGraph("Number of NPC Shops per Server");
+
+        npcshops.addPlotter(new Metrics.Plotter("" + NPCManager.getNPCShops().size()) {
+            @Override
+            public int getValue() {
+                return 1;
+            }
+        });
+        //
+        if (useHolograms()) {
+            Metrics.Graph holoshops = metrics.createGraph("Number of Holographic Shops per Server");
+
+            holoshops.addPlotter(new Metrics.Plotter("" + HologramManager.getHolographicShops().size()) {
+                @Override
+                public int getValue() {
+                    return 1;
+                }
+            });
+        }
+
+
+        if (useWorldGuard()) {
+            Metrics.Graph wg = metrics.createGraph("WorldGuard users");
+
+            wg.addPlotter(new Metrics.Plotter(
+                Objects.requireNonNull(Core.getWorldGuard()).getDescription().getVersion()) {
+                @Override
+                public int getValue() {
+                    return 1;
+                }
+            });
+
+        }
+
+        Metrics.Graph s = metrics.createGraph("Shop Storage");
+
+        s.addPlotter(new Metrics.Plotter("MySQL") {
+            @Override
+            public int getValue() {
+                return 1;
+            }
+        });
+
     }
 
     public static Connection getConnection() {
@@ -391,78 +411,17 @@ public class Core extends JavaPlugin {
         return db != null;
     }
 
-    public void setUpMetrics() {
-        Metrics.Graph shops = metrics.createGraph("Number of shops per Server");
+    public static void loadShops() throws Exception {
+        Bukkit.getConsoleSender().sendMessage("§bBetterShops§7 - §aLoaded §d" + ShopManager.loadShops() + " §aChest Shops");
+        Bukkit.getConsoleSender().sendMessage("§bBetterShops§7 - §eSome shops may still be initializing, this may last a few minutes");
+        Bukkit.getConsoleSender().sendMessage("§bBetterShops§7 - §aLoading §eSign Shops§a...");
+        Bukkit.getConsoleSender().sendMessage("§bBetterShops§7 - §aLoaded §d" + SignShopManager.loadSignShops() + " §aSign Shops");
 
-        shops.addPlotter(new Metrics.Plotter("" + ShopManager.getShops().size()) {
-            @Override
-            public int getValue() {
-                return 1;
-            }
-        });
-
-        Metrics.Graph npcshops = metrics.createGraph("Number of NPC shops per Server");
-
-        npcshops.addPlotter(new Metrics.Plotter("" + NPCManager.getNPCShops().size()) {
-            @Override
-            public int getValue() {
-                return 1;
-            }
-        });
-//
-        if (useHolograms()) {
-            Metrics.Graph holoshops = metrics.createGraph("Number of Holographic shops per Server");
-
-            holoshops.addPlotter(new Metrics.Plotter("" + HologramManager.getHolographicShops().size()) {
-                @Override
-                public int getValue() {
-                    return 1;
-                }
-            });
+        Bukkit.getConsoleSender().sendMessage("§bBetterShops§7 - §aNPC Shops will be loaded when needed.");
+        if (useHolograms() && (boolean) Config.getObject("HoloShops")) {
+            Bukkit.getConsoleSender().sendMessage("§bBetterShops§7 - §aHolographic Shops will be loaded when needed.");
         }
-
-
-        if (beta) {
-
-            Metrics.Graph beta = metrics.createGraph("Beta users");
-
-            beta.addPlotter(new Metrics.Plotter(getDescription().getVersion()) {
-                @Override
-                public int getValue() {
-                    return 1;
-                }
-            });
-        }
-
-        if (useWorldGuard()) {
-            Metrics.Graph wg = metrics.createGraph("WorldGuard users");
-
-            wg.addPlotter(new Metrics.Plotter(Core.getWorldGuard().getDescription().getVersion()) {
-                @Override
-                public int getValue() {
-                    return 1;
-                }
-            });
-
-        }
-
-        Metrics.Graph s = metrics.createGraph("Shop Storage");
-
-        if (useSQL()) {
-            s.addPlotter(new Metrics.Plotter("MySQL") {
-                @Override
-                public int getValue() {
-                    return 1;
-                }
-            });
-        } else {
-            s.addPlotter(new Metrics.Plotter("Files") {
-                @Override
-                public int getValue() {
-                    return 1;
-                }
-            });
-        }
+        Bukkit.getConsoleSender().sendMessage("§bBetterShops§7 - §aDone");
 
     }
 }

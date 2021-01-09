@@ -56,12 +56,8 @@ public class Opener implements Listener {
                         e.setCancelled(true);
                         p.sendMessage(Language.getString("Messages", "Prefix") + Language.getString("Messages", "CannotPlace"));
 
-                        Bukkit.getScheduler().scheduleSyncDelayedTask(Bukkit.getPluginManager().getPlugin("BetterShops"), new Runnable() {
-                            @Override
-                            public void run() {
-                                e.getBlock().setType(Material.AIR);
-                            }
-                        }, 2L);
+                        Bukkit.getScheduler().scheduleSyncDelayedTask(Bukkit.getPluginManager().getPlugin("BetterShops"),
+                            () -> e.getBlock().setType(Material.AIR), 2L);
                     }
                 }
             }
@@ -80,9 +76,8 @@ public class Opener implements Listener {
                 final Shop shop = ShopManager.fromLocation(b.getLocation());
                 if (shop != null) {
 
-                    Bukkit.getScheduler().runTaskAsynchronously(Bukkit.getPluginManager().getPlugin("BetterShops"), new Runnable() {
-                        @Override
-                        public void run() {
+                    Bukkit.getScheduler().runTaskAsynchronously(Bukkit.getPluginManager().getPlugin("BetterShops"),
+                        () -> {
 
                             if (shop.getOwner() != null) {
                                 if (!shop.getBlacklist().contains(p)) {
@@ -105,8 +100,7 @@ public class Opener implements Listener {
                             } else {
                                 p.sendMessage(Language.getString("Messages", "Prefix") + Language.getString("Messages", "NoOwner"));
                             }
-                        }
-                    });
+                        });
                 }
             } else if (b.getType() == XMaterial.OAK_WALL_SIGN.parseMaterial()) {
                 Sign sign = (Sign) b.getState();
@@ -136,9 +130,8 @@ public class Opener implements Listener {
                 }
                 final Shop shop = sho;
                 if (shop != null) {
-                    Bukkit.getScheduler().runTaskAsynchronously(Bukkit.getPluginManager().getPlugin("BetterShops"), new Runnable() {
-                        @Override
-                        public void run() {
+                    Bukkit.getScheduler().runTaskAsynchronously(Bukkit.getPluginManager().getPlugin("BetterShops"),
+                        () -> {
                             if (shop.getOwner() != null) {
                                 if (!shop.getBlacklist().contains(p)) {
                                     ClickableItem.clearPlayer(p);
@@ -150,8 +143,7 @@ public class Opener implements Listener {
                             } else {
                                 p.sendMessage(Language.getString("Messages", "Prefix") + Language.getString("Messages", "NoOwner"));
                             }
-                        }
-                    });
+                        });
                 }
             }
         }

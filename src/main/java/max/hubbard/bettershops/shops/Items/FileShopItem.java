@@ -31,10 +31,6 @@ public class FileShopItem implements ShopItem {
     private List<String> lore;
     private String displayName;
     private double priceChangePercent = 1;
-    private int amountToDouble = 420;
-    private final double minPrice = 0;
-    private double adjustedPrice;
-    private final double maxPrice = 10000000;
     private double amountTo;
     private Timing autoStock;
     private Timing transCool;
@@ -329,9 +325,8 @@ public class FileShopItem implements ShopItem {
         return data;
     }
 
-    public double calculateAmountTo() {
+    public void calculateAmountTo() {
         amountTo = getPriceChangePercent() * getAmountToDouble();
-        return amountTo;
     }
 
     public void setData(byte data) {
@@ -366,14 +361,14 @@ public class FileShopItem implements ShopItem {
 
     public String getPriceAsString() {
 
-        BigDecimal dec = new BigDecimal(getPrice());
+        BigDecimal dec = BigDecimal.valueOf(getPrice());
         dec = dec.setScale(2, BigDecimal.ROUND_HALF_UP);
 
         return dec.toPlainString();
     }
 
     public double getAdjustedPrice() {
-        BigDecimal dec = new BigDecimal((Double) getObject("AdjustedPrice"));
+        BigDecimal dec = BigDecimal.valueOf((Double) getObject("AdjustedPrice"));
         dec = dec.setScale(2, BigDecimal.ROUND_HALF_UP);
 
         return dec.doubleValue();
@@ -381,7 +376,7 @@ public class FileShopItem implements ShopItem {
 
     public String getAdjustedPriceAsString() {
 
-        BigDecimal dec = new BigDecimal(getAdjustedPrice());
+        BigDecimal dec = BigDecimal.valueOf(getAdjustedPrice());
         dec = dec.setScale(2, BigDecimal.ROUND_HALF_UP);
 
         return dec.toPlainString();
@@ -396,7 +391,7 @@ public class FileShopItem implements ShopItem {
         BigDecimal dec = new BigDecimal(amt);
         dec = dec.setScale(2, BigDecimal.ROUND_HALF_UP);
 
-        this.adjustedPrice = dec.doubleValue();
+        double adjustedPrice = dec.doubleValue();
         setObject("AdjustedPrice", dec.doubleValue());
         if (getLiveEco()) {
             setObject("Price", adjustedPrice);
@@ -429,7 +424,6 @@ public class FileShopItem implements ShopItem {
     }
 
     public void setAmountToDouble(int amt) {
-        this.amountToDouble = amt;
         setObject("DoubleAmount", amt);
         if (!sell && getSister() != null && !isSellEco()) {
             getSister().setAmountToDouble(amt);
@@ -472,6 +466,8 @@ public class FileShopItem implements ShopItem {
     public void calculatePrice() {
         double p = getOrigPrice() + (getOrigPrice() * (priceChangePercent / 100));
 
+        double minPrice = 0;
+        double maxPrice = 10000000;
         if (p < minPrice) {
             setAdjustedPrice(minPrice);
         } else

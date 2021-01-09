@@ -112,18 +112,19 @@ public class SQLShopItem implements ShopItem {
 
             try {
                 this.statement = Core.getConnection().createStatement();
-                String l = null;
+                StringBuilder l = null;
                 if (lore != null) {
-                    l = lore.get(0);
+                    l = new StringBuilder(lore.get(0));
                     for (int i = 1; i < lore.size(); i++) {
-                        l = l + "||BS||" + lore.get(i);
+                        l.append("||BS||").append(lore.get(i));
                     }
                 }
 
-                String enchants = "";
+                StringBuilder enchants = new StringBuilder();
                 if (item.getEnchantments().size() > 0) {
                     for (Enchantment en : item.getEnchantments().keySet()) {
-                        enchants = enchants + "||BS||" + en.getName() + "-" + item.getEnchantments().get(en);
+                        enchants.append("||BS||").append(en.getName()).append("-")
+                            .append(item.getEnchantments().get(en));
                     }
                 }
 
@@ -167,9 +168,11 @@ public class SQLShopItem implements ShopItem {
 
                     ItemMeta meta = item.getItemMeta();
                     if (displayName != null) {
+                        assert meta != null;
                         meta.setDisplayName(displayName);
                     }
                     if (lore != null) {
+                        assert meta != null;
                         meta.setLore(lore);
                     }
                     item.setItemMeta(meta);
@@ -402,7 +405,7 @@ public class SQLShopItem implements ShopItem {
 
     public String getPriceAsString() {
 
-        BigDecimal dec = new BigDecimal(getPrice());
+        BigDecimal dec = BigDecimal.valueOf(getPrice());
         dec = dec.setScale(2, BigDecimal.ROUND_HALF_UP);
 
         return dec.toPlainString();
@@ -415,7 +418,7 @@ public class SQLShopItem implements ShopItem {
 
     public String getAdjustedPriceAsString() {
 
-        BigDecimal dec = new BigDecimal(getAdjustedPrice());
+        BigDecimal dec = BigDecimal.valueOf(getAdjustedPrice());
         dec = dec.setScale(2, BigDecimal.ROUND_HALF_UP);
 
         return dec.toPlainString();
@@ -458,9 +461,8 @@ public class SQLShopItem implements ShopItem {
         }
     }
 
-    public double calculateAmountTo() {
+    public void calculateAmountTo() {
         amountTo = getPriceChangePercent() * getAmountToDouble();
-        return amountTo;
     }
 
     public double getAmountTo() {
@@ -517,12 +519,8 @@ public class SQLShopItem implements ShopItem {
 
         if (p < minPrice) {
             setAdjustedPrice(minPrice);
-        } else if (p > maxPrice) {
-            setAdjustedPrice(maxPrice);
-        } else {
-
-            setAdjustedPrice(p);
-        }
+        } else
+            setAdjustedPrice(Math.min(p, maxPrice));
         if (!sell) {
             getSister().setObject("LiveEconomy", true);
             if (!isSellEco()) {

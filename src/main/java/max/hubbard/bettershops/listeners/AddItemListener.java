@@ -58,9 +58,8 @@ public class AddItemListener implements Listener {
 
                         if (p.getOpenInventory() != null && p.getOpenInventory().getTopInventory().getName().contains(Language.getString("MainGUI", "ShopHeader"))) {
 
-                            Bukkit.getScheduler().runTaskAsynchronously(Bukkit.getPluginManager().getPlugin("BetterShops"), new Runnable() {
-                                @Override
-                                public void run() {
+                            Bukkit.getScheduler().runTaskAsynchronously(Bukkit.getPluginManager().getPlugin("BetterShops"),
+                                () -> {
 
                                     String name = p.getOpenInventory().getTopInventory().getName();
                                     name = name.substring(Language.getString("MainGUI", "ShopHeader").length());
@@ -229,8 +228,7 @@ public class AddItemListener implements Listener {
                                             }
                                         }
                                     }
-                                }
-                            });
+                                });
                         }
                     }
                 }

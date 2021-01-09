@@ -79,7 +79,7 @@ public class DatabaseManager {
                     "MinPrice DOUBLE," +
                     "MaxPrice DOUBLE);");
 
-            String lore = "";
+            StringBuilder lore = new StringBuilder();
             String name = "";
 
             if (item.getDisplayName() != null){
@@ -88,11 +88,14 @@ public class DatabaseManager {
 
             if (item.getLore() != null && item.getLore().size() > 0) {
 
-                lore = item.getLore().get(0).replaceAll("'","").replaceAll(",","").replaceAll(";","");
+                lore = new StringBuilder(
+                    item.getLore().get(0).replaceAll("'", "").replaceAll(",", "")
+                        .replaceAll(";", ""));
 
                 for (String s : item.getLore()) {
                     if (!s.equals(item.getLore().get(0))) {
-                        lore = lore + "\n" + s.replaceAll("'","").replaceAll(",","").replaceAll(";","");
+                        lore.append("\n")
+                            .append(s.replaceAll("'", "").replaceAll(",", "").replaceAll(";", ""));
                     }
                 }
 

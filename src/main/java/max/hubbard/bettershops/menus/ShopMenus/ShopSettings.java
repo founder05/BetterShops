@@ -283,7 +283,7 @@ public class ShopSettings implements ShopMenu {
         });
 
         for (int i = 0; i < DyeColor.values().length; i++) {
-            final DyeColor c = DyeColor.getByData((byte) i);
+            final DyeColor c = DyeColor.getByDyeData((byte) i);
 
             ItemStack ite = new ItemStack(Material.STAINED_GLASS_PANE, 1, c.getDyeData());
             ItemMeta m1 = ite.getItemMeta();

@@ -55,7 +55,6 @@ public class FileShop implements Shop {
     private final List<OfflinePlayer> keepers = new ArrayList<OfflinePlayer>();
     private Location l;
     private final HashMap<MenuType, ShopMenu> menus = new HashMap<>();
-    private boolean transLoaded;
     private final History history;
     public HashMap<UUID, ShopItem> arrange = new HashMap<>();
 
@@ -481,7 +480,7 @@ public class FileShop implements Shop {
 
 //        saveConfig();
 
-        transLoaded = true;
+        boolean transLoaded = true;
     }
 
     public void deleteShopItem(ShopItem item) {

@@ -45,12 +45,8 @@ public class ShopMaintainer implements Listener {
                 if (item != null) {
 
                     item.setObject("Stock", item.getStock() + e.getItem().getAmount());
-                    Bukkit.getScheduler().runTaskAsynchronously(Bukkit.getPluginManager().getPlugin("BetterShops"), new Runnable() {
-                        @Override
-                        public void run() {
-                            Stocks.removeItemsFromInventory(e.getItem(), chest, e.getItem().getAmount());
-                        }
-                    });
+                    Bukkit.getScheduler().runTaskAsynchronously(Bukkit.getPluginManager().getPlugin("BetterShops"),
+                        () -> Stocks.removeItemsFromInventory(e.getItem(), chest, e.getItem().getAmount()));
                 }
             }
         }
@@ -61,12 +57,8 @@ public class ShopMaintainer implements Listener {
         for (final Block b : e.blockList()) {
             Shop shop = ShopManager.fromLocation(b.getLocation());
             if (shop != null) {
-                Bukkit.getScheduler().runTaskLater(Bukkit.getPluginManager().getPlugin("BetterShops"), new Runnable() {
-                    @Override
-                    public void run() {
-                        NPCShop.addChest(b.getLocation());
-                    }
-                }, 5L);
+                Bukkit.getScheduler().runTaskLater(Bukkit.getPluginManager().getPlugin("BetterShops"),
+                    () -> NPCShop.addChest(b.getLocation()), 5L);
             }
         }
     }
@@ -76,12 +68,8 @@ public class ShopMaintainer implements Listener {
         for (final Block b : e.blockList()) {
             Shop shop = ShopManager.fromLocation(b.getLocation());
             if (shop != null) {
-                Bukkit.getScheduler().runTaskLater(Bukkit.getPluginManager().getPlugin("BetterShops"), new Runnable() {
-                    @Override
-                    public void run() {
-                        NPCShop.addChest(b.getLocation());
-                    }
-                }, 5L);
+                Bukkit.getScheduler().runTaskLater(Bukkit.getPluginManager().getPlugin("BetterShops"),
+                    () -> NPCShop.addChest(b.getLocation()), 5L);
             }
         }
     }

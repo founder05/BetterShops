@@ -1,6 +1,6 @@
 name: BetterShops
 main: max.hubbard.bettershops.Core
-version: 2.1.31
+version: ${project.version}
 author: moomaxie, FireBreath15
 softdepend: [WorldGuard, Vault, HolographicDisplays, Citizens]
 description: >
@@ -44,10 +44,10 @@ permissions:
         default: op
     bettershops.shop.owneruse:
       description: Allows ability to create Server shops
-        default: op
+      default: op
     bettershops.shop.NPC:
       description: Allows ability to create NPC shops
-        default: op
+      default: op
     bettershops.shop.break:
         description: Allows ability to break shops
         default: op
@@ -59,10 +59,10 @@ permissions:
         default: true
     bettershops.shop.holograms:
       description: Allows ability to create Holographic shops
-        default: op
+      default: op
     bettershops.shop.arrange:
       description: Allows ability to Arrange shops
-        default: true
+      default: true
     bettershops.shop.blacklist:
         description: Allows ability to bypass the blacklist
         default: op
@@ -92,8 +92,8 @@ permissions:
         default: op
     bettershops.command.*:
       description: Access to all BetterShops commands
-        default: op
-        children:
+      default: op
+      children:
             bettershops.command.update: true
             bettershops.command.config: true
             bettershops.command.language: true

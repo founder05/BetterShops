@@ -42,44 +42,38 @@ public class ClickableActionListener implements Listener {
                                 .equals(e.getInventory())) {
 
                                 if (e.isLeftClick() && !e.isShiftClick()) {
-                                    Bukkit.getScheduler().runTaskAsynchronously(Bukkit.getPluginManager().getPlugin("BetterShops"), new Runnable() {
-                                        @Override
-                                        public void run() {
+                                    Bukkit.getScheduler().runTaskAsynchronously(Bukkit.getPluginManager().getPlugin("BetterShops"),
+                                        () -> {
 
                                             if (item.getLeftClickActions().size() > 0)
                                                 ClickableItem.clearPlayer(p);
                                             for (final LeftClickAction a : item.getLeftClickActions()) {
                                                 a.onAction(e);
                                             }
-                                        }
-                                    });
+                                        });
                                 }
 
                                 if (e.isRightClick() && !e.isShiftClick()) {
 
-                                    Bukkit.getScheduler().runTaskAsynchronously(Bukkit.getPluginManager().getPlugin("BetterShops"), new Runnable() {
-                                        @Override
-                                        public void run() {
+                                    Bukkit.getScheduler().runTaskAsynchronously(Bukkit.getPluginManager().getPlugin("BetterShops"),
+                                        () -> {
                                             if (item.getRightClickActions().size() > 0)
                                                 ClickableItem.clearPlayer(p);
                                             for (RightClickAction a : item.getRightClickActions()) {
                                                 a.onAction(e);
                                             }
-                                        }
-                                    });
+                                        });
                                 }
 
                                 if (e.isShiftClick()) {
-                                    Bukkit.getScheduler().runTaskAsynchronously(Bukkit.getPluginManager().getPlugin("BetterShops"), new Runnable() {
-                                        @Override
-                                        public void run() {
+                                    Bukkit.getScheduler().runTaskAsynchronously(Bukkit.getPluginManager().getPlugin("BetterShops"),
+                                        () -> {
                                             if (item.getShiftClickActions().size() > 0)
                                                 ClickableItem.clearPlayer(p);
                                             for (ShiftClickAction a : item.getShiftClickActions()) {
                                                 a.onAction(e);
                                             }
-                                        }
-                                    });
+                                        });
                                 }
                                 break;
                             }

@@ -10,6 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicReference;
@@ -43,30 +44,28 @@ public class AnvilManager implements Callable {
             ItemStack it = new ItemStack(Material.PAPER);
             ItemMeta meta = it.getItemMeta();
             meta.setDisplayName(Language.getString("SearchEngine", "Name"));
-            meta.setLore(Arrays.asList(Language.getString("SearchEngine", "Confirm")));
+            meta.setLore(Collections.singletonList(Language.getString("SearchEngine", "Confirm")));
             it.setItemMeta(meta);
+            assert gui != null;
             gui.setSlot(AnvilGUI.AnvilSlot.INPUT_LEFT, it);
-            gui.doGUIThing(p, new AnvilGUI.AnvilClickEventHandler() {
-                @Override
-                public void onAnvilClick(AnvilGUI.AnvilClickEvent ev) {
-                    if (ev.getSlot() == 2) {
-                        ev.setWillClose(true);
-                        ev.setWillDestroy(true);
+            gui.doGUIThing(p, ev -> {
+                if (ev.getSlot() == 2) {
+                    ev.setWillClose(true);
+                    ev.setWillDestroy(true);
 
-                        if (ev.getCurrentItem().getType() == Material.PAPER) {
-                            if (ev.getCurrentItem().hasItemMeta()) {
-                                if (ev.getCurrentItem().getItemMeta().getDisplayName() != null) {
-                                    name = ev.getCurrentItem().getItemMeta().getDisplayName();
-                                    result.set(name);
-                                    latch.countDown();
-                                }
+                    if (ev.getCurrentItem().getType() == Material.PAPER) {
+                        if (ev.getCurrentItem().hasItemMeta()) {
+                            if (ev.getCurrentItem().getItemMeta().getDisplayName() != null) {
+                                name = ev.getCurrentItem().getItemMeta().getDisplayName();
+                                result.set(name);
+                                latch.countDown();
                             }
                         }
-
-                    } else {
-                        ev.setWillClose(false);
-                        ev.setWillDestroy(false);
                     }
+
+                } else {
+                    ev.setWillClose(false);
+                    ev.setWillDestroy(false);
                 }
             });
 

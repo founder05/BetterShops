@@ -1,10 +1,10 @@
 package max.hubbard.bettershops.nms.v1_9_R2.Entities;
 
-import net.minecraft.server.v1_10_R1.*;
+import net.minecraft.server.v1_9_R2.*;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_10_R1.CraftWorld;
-import org.bukkit.craftbukkit.v1_10_R1.entity.CraftLivingEntity;
-import org.bukkit.craftbukkit.v1_10_R1.entity.CraftSilverfish;
+import org.bukkit.craftbukkit.v1_9_R2.CraftWorld;
+import org.bukkit.craftbukkit.v1_9_R2.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.v1_9_R2.entity.CraftSilverfish;
 import org.bukkit.entity.Silverfish;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 

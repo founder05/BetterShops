@@ -28,6 +28,8 @@ public class Language {
         return configs.get(file);
     }
 
+    public static Core pl;
+
     public static File getFile(String file) {
         return files.get(file);
     }
@@ -36,7 +38,8 @@ public class Language {
         if (configs.containsKey(file)) {
             return configs.get(file).getString(s).replaceAll("&", "§").replaceAll("»", "»");
         } else {
-            File f = new File(Bukkit.getPluginManager().getPlugin("BetterShops").getDataFolder(), "Language/" + file + ".yml");
+            File f = new File(Bukkit.getPluginManager().getPlugin("BetterShops").getDataFolder(),
+                "Language/" + file + ".yml");
             YamlConfiguration config = YamlConfiguration.loadConfiguration(f);
             configs.put(file, config);
             files.put(file, f);
@@ -53,7 +56,8 @@ public class Language {
 
             }
         } else {
-            File f = new File(Bukkit.getPluginManager().getPlugin("BetterShops").getDataFolder(), "Language/" + file + ".yml");
+            File f = new File(Bukkit.getPluginManager().getPlugin("BetterShops").getDataFolder(),
+                "Language/" + file + ".yml");
             YamlConfiguration config = YamlConfiguration.loadConfiguration(f);
             configs.put(file, config);
             files.put(file, f);
@@ -76,106 +80,6 @@ public class Language {
                 e.printStackTrace();
             } finally {
                 f.delete();
-            }
-        }
-    }
-
-    public static void updateFiles() {
-
-        File fil = Core.getCore().getFile();
-
-        java.util.jar.JarFile jar;
-        try {
-            jar = new java.util.jar.JarFile(fil);
-        } catch (IOException e) {
-            try {
-                jar = new java.util.jar.JarFile(new File(Core.getCore().getDataFolder().getParent(), "BetterShops.jar"));
-            } catch (Exception e7) {
-                Bukkit.getConsoleSender().sendMessage("§bBetterShops§7 - §cCan't find the jar file, Rename the .Jar to 'BetterShops.jar'. Plugin Disabling!");
-                Bukkit.getPluginManager().disablePlugin(Core.getCore());
-                return;
-            }
-        }
-
-        java.util.Enumeration enumEntries = jar.entries();
-        while (enumEntries.hasMoreElements()) {
-            java.util.jar.JarEntry file = (java.util.jar.JarEntry) enumEntries.nextElement();
-
-            File f = new File(Core.getCore().getDataFolder(), file.getName());
-
-            if (file.getName().contains(".yml") && !file.getName().equals("plugin.yml")) {
-                if (f.exists()) {
-                    YamlConfiguration config = YamlConfiguration.loadConfiguration(f);
-
-                    HashMap<String, Object> hash = new HashMap<>();
-
-                    String d = null;
-
-                    for (String s : config.getKeys(true)) {
-                        if (!s.contains("Version"))
-                            hash.put(s, config.get(s));
-                        else
-                            d = config.getString(s);
-                    }
-
-                    if (d != null) {
-
-                        if (!d.equals(Core.getCore().getDescription().getVersion())) {
-                            try {
-                                YamlConfiguration c = YamlConfiguration.loadConfiguration(jar.getInputStream(file));
-
-                                for (String s : c.getKeys(true)) {
-                                    config.set(s, c.get(s));
-                                }
-
-                                String name = f.getName().substring(0, f.getName().length() - 4);
-                                Bukkit.getConsoleSender().sendMessage("§bBetterShops§7 - §eChanged the " + name + " Language file.");
-
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-
-                        }
-                    }
-
-                    for (String s : hash.keySet()) {
-                        config.set(s, hash.get(s));
-                    }
-
-                    config.set("Version", Core.getCore().getDescription().getVersion());
-
-                    try {
-                        config.save(f);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    configs.put(f.getName().substring(0, f.getName().length() - 4), config);
-                    files.put(f.getName().substring(0, f.getName().length() - 4), f);
-
-                } else {
-                    try {
-                        if (!f.getParentFile().exists()) {
-                            f.getParentFile().mkdirs();
-                        }
-
-                        f.createNewFile();
-
-                        java.io.InputStream is = jar.getInputStream(file); // get the input stream
-                        java.io.FileOutputStream fos = new java.io.FileOutputStream(f);
-                        while (is.available() > 0) {  // write contents of 'is' to 'fos'
-                            fos.write(is.read());
-                        }
-                        fos.close();
-                        is.close();
-
-                        String name = f.getName().substring(0, f.getName().length() - 4);
-                        Bukkit.getConsoleSender().sendMessage("§bBetterShops§7 - §eCreated the " + name + " Language file.");
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    configs.put(f.getName().substring(0, f.getName().length() - 4), YamlConfiguration.loadConfiguration(f));
-                    files.put(f.getName().substring(0, f.getName().length() - 4), f);
-                }
             }
         }
     }

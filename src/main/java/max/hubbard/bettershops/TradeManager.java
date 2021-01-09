@@ -194,14 +194,14 @@ public class TradeManager {
                     ti2.add(ItemUtils.toString(ite));
                 }
 
-                String s = "";
-                String s2 = "";
+                StringBuilder s = new StringBuilder();
+                StringBuilder s2 = new StringBuilder();
 
                 for (String s1 : ti) {
-                    s = s + s1 + "###";
+                    s.append(s1).append("###");
                 }
                 for (String s1 : ti2) {
-                    s2 = s2 + s1 + "###";
+                    s2.append(s1).append("###");
                 }
 
                 statement.executeUpdate("INSERT INTO " + Config.getObject("prefix") + "Trades (`Shop`, `Id`, `TradeItems`, `ReceiveItems`, `Gold`, `RecGold`, `Traded`) VALUES" +

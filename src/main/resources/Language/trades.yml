@@ -30,7 +30,6 @@ TheirMoney: '&eReceiving Money: &7<Amount>'
 
 AddAmount: '&eTrade Offer: &7$<Amount>'
 RecAmount: '&eReceive Offer: &7$<Amount>'
-AddLore: '&e&lLeft Click &7to add'
 RemoveLore: '&e&lRight Click &7to remove'
 ClearLore: '&e&lShift Click &7to clear'
 
